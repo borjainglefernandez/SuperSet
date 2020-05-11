@@ -1,0 +1,29 @@
+Classes:
+-Exercise
+-Workout
+-Split
+
+Exercise Fields:
+-type (either weight, reps, or time as a string)
+-weightedType(NULL for reps and time, either dumbbells, barbell, or machine for weighted exercises)
+-sets (int)
+-data (either weight, reps, or time as a double or int)
+
+Exercise Methods:
+-map calculatePlates(double weight, string type)
+*** @Param weight is the weight in pounds
+*** @Param type is the type of the weighted exercise(either dumbbells, barbell, or machine)
+*** @Return a map<int, int> corresponding to how many of each plates
+*** EX: calculatePlates(315, barbell) -> {45: 6}
+
+-num(double or int) calculateAverage(int/double[] data) 
+*** @Param data is the weight, reps, or time of a set of exercises
+*** @Return a num(double or int) of the average of all of the sets
+*** EX: calculateAverage([10,12,14,16]) -> 12
+
+
+
+
+
+
+
