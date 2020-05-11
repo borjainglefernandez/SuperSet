@@ -10,10 +10,10 @@ Exercise Fields:
 -data (either weight, reps, or time as a double or int)
 
 Exercise Methods:
--map calculatePlates(double weight, string type)
+-dict calculatePlates(double weight, string type)
 *** @Param weight is the weight in pounds
 *** @Param type is the type of the weighted exercise(either dumbbells, barbell, or machine)
-*** @Return a map<int, int> corresponding to how many of each plates
+*** @Return a dict<int, int> corresponding to how many of each plates
 *** EX: calculatePlates(315, barbell) -> {45: 6}
 
 -num(double or int) calculateAverage(int/double[] data) 
