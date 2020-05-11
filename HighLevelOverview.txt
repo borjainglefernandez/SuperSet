@@ -10,7 +10,7 @@ Features:
 -Averages out weights 
 
 Different Types of Exercises:
--Weight
+-Weight 
 -Reps
 -Time
 
