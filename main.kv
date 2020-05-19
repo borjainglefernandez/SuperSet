@@ -1,0 +1,13 @@
+#:include homescreen.kv
+#:include addworkout.kv
+
+GridLayout:
+    cols: 1
+    ScreenManager:
+        id: screen_manager
+        HomeScreen:
+            name: "home_screen"
+            id: home_screen
+        AddWorkoutScreen:
+            name: "add_workout_screen"
+            id: add_workout_screen
