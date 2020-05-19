@@ -10,6 +10,12 @@ class HomeScreen(Screen):
 class AddWorkoutScreen(Screen):
     pass
 
+class ExistingSplitsScreen(Screen):
+    pass
+
+class SettingsScreen(Screen):
+    pass
+
 class WindowManager(ScreenManager):
     pass
 

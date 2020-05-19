@@ -1,4 +1,4 @@
-#:import hex kivy.utils.get_color_from_hex
+#:import utils kivy.utils
 <HomeScreen>:
     FloatLayout:
         canvas:
@@ -11,6 +11,16 @@
             pos_hint: {"top": 1.2, "left": 1}
             #Credit: “Created my free logo at LogoMakr.com”
             source: "icons/Logo.png"
+        Label:
+            text: "SuperSet"
+            #pos_hint: {"top": 1.4, "right": 1}
+            font_name: "Impact"
+            font_size: "20sp"
+            halign: 'center'
+            valign: 'middle'
+            canvas:
+                Color:
+                    rgba: utils.get_color_from_hex('#33A2FF')
         Button:
             #Credit: https://www.flaticon.com/free-icon/button_983901?term=add&page=1&position=91
             background_normal: "icons/plusicon2.png"
@@ -21,6 +31,34 @@
         Label:
             text: "Add Workout Split"
             pos_hint: {"top": 0.85, "right": 1.15}
+            font_name: 'Arial Black'
+            canvas:
+                Color:
+                    rgba: 1,1,1,1
+        Button:
+            #Credit: https://www.flaticon.com/free-icon/dumbbell_563777?term=dumbbell&page=1&position=27
+            background_normal: "icons/ExisitngSplitsIcon.png"
+            size_hint: 0.2, 0.1
+            pos_hint: {"top": 0.28, "right": 0.35}
+            on_release:
+                app.change_screen("existing_splits_screen","next")
+        Label:
+            text: "Existing Workout Splits"
+            pos_hint: {"top": 0.74, "right": 1.15}
+            font_name: 'Arial Black'
+            canvas:
+                Color:
+                    rgba: 1,1,1,1
+        Button:
+            #Credit: https://www.flaticon.com/free-icon/settings_2928568?term=settings&page=1&position=7
+            background_normal: "icons/settingsicon.png"
+            size_hint: 0.2, 0.15
+            pos_hint: {"top": 0.18, "right": 0.35}
+            on_release:
+                app.change_screen("settings_screen","next")
+        Label:
+            text: "Settings"
+            pos_hint: {"top": 0.61, "right": 1.09}
             font_name: 'Arial Black'
             canvas:
                 Color:
