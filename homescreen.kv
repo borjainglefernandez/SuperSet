@@ -1,5 +1,27 @@
+#:import hex kivy.utils.get_color_from_hex
 <HomeScreen>:
-    Button:
-        text: "You are at the home screen"
-        on_release:
-            app.change_screen("add_workout_screen","next")
+    FloatLayout:
+        canvas:
+            Color:
+                rgba: 0,0,0,1
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Image:
+            pos_hint: {"top": 1.2, "left": 1}
+            #Credit: “Created my free logo at LogoMakr.com”
+            source: "icons/Logo.png"
+        Button:
+            #Credit: https://www.flaticon.com/free-icon/button_983901?term=add&page=1&position=91
+            background_normal: "icons/plusicon2.png"
+            size_hint: 0.2, 0.1
+            pos_hint: {"top": 0.4, "right": 0.35}
+            on_release:
+                app.change_screen("add_workout_screen","next")
+        Label:
+            text: "Add Workout Split"
+            pos_hint: {"top": 0.85, "right": 1.15}
+            font_name: 'Arial Black'
+            canvas:
+                Color:
+                    rgba: 1,1,1,1
