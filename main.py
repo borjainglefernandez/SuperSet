@@ -21,7 +21,11 @@ class WindowManager(ScreenManager):
 
 GUI = Builder.load_file("main.kv")
 
+workoutsplit_tracker = 1
+
+
 class GainsApp(App):
+    # Global Variable to track the amount of workout splits created
 
     def build(self):
         return GUI
@@ -33,6 +37,17 @@ class GainsApp(App):
         elif direction == "previous":
             screen_manager.transition.direction = "right"
         screen_manager.current = screen_name
+
+    def add_screen(self, name):
+        screen_manager = self.root.ids["screen_manager"]
+        workoutsplit_tracker_string = str(workoutsplit_tracker)
+        actual_name = name + workoutsplit_tracker_string
+        print(actual_name)
+        screen = Screen(name=actual_name)
+        screen_manager.add_widget(screen)
+
+    def get_next_workout(self):
+        return "workout" + str(workoutsplit_tracker)
 
 
 if __name__ == '__main__':

@@ -1,5 +1,13 @@
 <AddWorkoutScreen>:
-    Button:
-        text: "You are at the add workout screen"
-        on_release:
-            app.change_screen("home_screen","previous")
+    GridLayout:
+        cols: 2
+        Button:
+            text: "You are at the add workout screen"
+            on_release:
+                app.change_screen("home_screen","previous")
+        Button:
+            text: "Add Workout"
+            on_release:
+                app.add_screen("workout")
+                app.change_screen(app.get_next_workout(),"next")
+
