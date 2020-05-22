@@ -1,5 +1,20 @@
+<BackgroundColor@Widget>
+    background_color: 1, 1, 1, 1
+    canvas.before:
+        Color:
+            rgba: root.background_color
+        Rectangle:
+            size: self.size
+            pos: self.pos
+<BackgroundLabel@Label+BackgroundColor>
+    background_color: 0, 0, 0, 0
 <SettingsScreen>:
-    Button:
-        text: "You are at the settings screen"
-        on_release:
-            app.change_screen("home_screen","previous")
+    GridLayout:
+        cols: 2
+        Button:
+            text: "You are at the settings screen"
+            on_release:
+                app.change_screen("home_screen","previous")
+        BackgroundLabel
+            text: 'Hello'
+            background_color: 1, 0, 0, 1

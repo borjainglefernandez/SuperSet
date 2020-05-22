@@ -1,13 +1,63 @@
+<BackgroundColor@Widget>
+    background_color: 1, 1, 1, 1
+    canvas.before:
+        Color:
+            rgba: root.background_color
+        Rectangle:
+            size: self.size
+            pos: self.pos
+<BackgroundLabel@Label+BackgroundColor>
+    background_color: 0, 0, 0, 0
 <AddWorkoutScreen>:
-    GridLayout:
-        cols: 2
-        Button:
-            text: "You are at the add workout screen"
-            on_release:
-                app.change_screen("home_screen","previous")
-        Button:
-            text: "Add Workout"
-            on_release:
-                app.add_screen("workout")
-                app.change_screen(app.get_next_workout(),"next")
+    ScrollView:
+        do_scroll_x: False
+        do_scroll_y: True
+        FloatLayout:
+            Button:
+                pos_hint: {"top": 1, "left": 0.5}
+                size_hint: 0.15,0.12
+                #Credit: https://www.flaticon.com/authors/pixel-perfect
+                background_normal: "icons/previous.png"
+                on_release:
+                    app.change_screen("home_screen","previous")
+            BackgroundLabel:
+                size_hint: 0.7,0.1
+                pos_hint: {"top": 0.9, "right": 0.9}
+                halign: "center"
+                text: "Select the days of the week you would like to workout"
+                font_size: "10sp"
+                background_color: 0.047, 0.51372549, 0.894, 1
+            GridLayout:
+                cols: 7
+                color: 0,0,0,1
+                size_hint: 1, 0.1
+                pos_hint: {"top": 0.8}
+                ToggleButton:
+                    text: "Sunday"
+                    font_size: "10sp"
+                ToggleButton:
+                    text: "Monday"
+                    font_size: "10sp"
+                ToggleButton:
+                    text: "Tuesday"
+                    font_size: "10sp"
+                ToggleButton:
+                    text: "Wednesday"
+                    font_size: "10sp"
+                ToggleButton:
+                    text: "Thursday"
+                    font_size: "10sp"
+                ToggleButton:
+                    text: "Friday"
+                    font_size: "10sp"
+                ToggleButton:
+                    text: "Sunday"
+                    font_size: "10sp"
+            Button:
+                pos_hint: {"top": 0.5, "left": 1}
+                size_hint: 0.2, 0.1
+                text: "Add Workout"
+                on_release:
+                    app.add_screen("workout")
+                    app.change_screen(app.get_next_workout(),"next")
 

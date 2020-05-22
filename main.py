@@ -5,6 +5,7 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen, ScreenManager
 
+
 class HomeScreen(Screen):
     pass
 class AddWorkoutScreen(Screen):
