@@ -46,18 +46,31 @@
                 background_normal: "icons/previous.png"
                 on_release:
                     app.change_screen("home_screen","previous")
+                    app.clear_addworkout_screen()
             BackgroundLabel:
-                size_hint: 0.7,0.1
-                pos_hint: {"top": 0.2, "right": 0.9}
+                size_hint: 0.7,0.05
+                pos_hint: {"top": 0.3, "right": 0.85}
                 halign: "center"
-                text: "Select the days of the week you would like to workout"
+                text: 'Enter the name of each exercise seperated by a ","'
                 font_size: "10sp"
                 background_color: 0.047, 0.51372549, 0.894, 1
+            #Button:
+                #pos_hint: {"top": 0.2, "left": 1}
+                #size_hint: 0.2, 0.1
+                #text: "Add Workout"
+                #on_release:
+                    #app.add_screen("workout")
+                    #app.change_screen(app.get_next_workout(),"next")
             Button:
-                pos_hint: {"top": 0.2, "left": 1}
-                size_hint: 0.2, 0.1
-                text: "Add Workout"
+                pos_hint: {"top": 0.65, "right": 0.85}
+                size_hint: 0.11, 0.11
+                text: "Submit"
                 on_release:
-                    app.add_screen("workout")
-                    app.change_screen(app.get_next_workout(),"next")
+                    app.ask_exercises(workout_days.text)
+            Button:
+                pos_hint: {"top": 0.3, "right": 0.85}
+                size_hint: 0.11, 0.05
+                text: "Submit"
+                on_release:
+                    app.submit_exercises()
 
