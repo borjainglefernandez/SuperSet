@@ -8,7 +8,10 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.togglebutton import ToggleButton
 from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
-from kivy.uix.scrollview import  ScrollView
+from kivy.uix.scrollview import ScrollView
+from kivy.core.window import Window
+from kivy.uix.button import Button
+
 
 
 class HomeScreen(Screen):
@@ -20,6 +23,9 @@ class ExistingSplitsScreen(Screen):
     pass
 
 class SettingsScreen(Screen):
+    pass
+
+class WorkoutScreen1(Screen):
     pass
 
 class WindowManager(ScreenManager):
@@ -68,6 +74,22 @@ class GainsApp(App):
     #scroll view for exercises_grid
     exercises_scroll = None
 
+    # grid layout for spreadsheet
+    spreadsheet_grid = None
+
+    # scroll view for spreatsheet_grid
+    spreadsheet_scroll = None
+
+    # name of the workout screen (up to 4, keeps track of which one is being used)
+    actual_name = None
+
+    # count for which text inputs location in terms of columns
+    col_count = 0
+
+    # count for which text inputs location in terms of rows
+    row_count = 0
+
+
     def build(self):
         return GUI
 
@@ -82,9 +104,45 @@ class GainsApp(App):
     def add_screen(self, name):
         screen_manager = self.root.ids["screen_manager"]
         workoutsplit_tracker_string = str(self.workoutsplit_tracker)
-        actual_name = name + workoutsplit_tracker_string
-        screen = Screen(name=actual_name)
+        self.actual_name = name + workoutsplit_tracker_string
+        screen = Screen(name=self.actual_name)
         screen_manager.add_widget(screen)
+        screen_manager.current = self.actual_name
+        self.workoutsplit_tracker += 1
+
+    def create_spreadsheet(self):
+        spreadsheet_screen = self.root.ids[self.actual_name]
+        num_of_rows = len(self.split_day) + len(self.split_exercises)
+        self.spreadsheet_grid = GridLayout(rows = 100, cols=30, spacing=10, size_hint_y=None, size_hint_x = None)
+        self.spreadsheet_grid.bind(minimum_height=self.spreadsheet_grid.setter('height'))
+        self.spreadsheet_grid.bind(minimum_width=self.spreadsheet_grid.setter('width'))
+
+        for split in self.split_day.keys():
+            split_label = Label(text = str(split), size_hint_y=None, size_hint_x = None, height=200, width = 350)
+            self.spreadsheet_grid.add_widget(split_label)
+            for i in range(29):
+                text_input = TextInput(id = "row" + str(self.col_count) + "col" + str(self.row_count), size_hint_y=None, size_hint_x = None, height=200, width = 350)
+                self.col_count += 1
+                self.spreadsheet_grid.add_widget(text_input)
+            self.row_count += 1
+            for exercise_list in self.split_exercises.values():
+                print(exercise_list)
+                for exercise in exercise_list:
+                    print(exercise)
+                    exercise_label = Label(text = str(exercise), size_hint_y=None, size_hint_x = None, height=200, width = 350)
+                    self.spreadsheet_grid.add_widget(exercise_label)
+                    for i in range(29):
+                        text_input = TextInput(id = "row" + str(self.col_count) + "col" + str(self.row_count), size_hint_y=None, size_hint_x = None, height=200, width = 350)
+                        self.col_count += 1
+                        self.spreadsheet_grid.add_widget(text_input)
+
+        #for i in range(1000):
+            #btn = Button(text=str(i), size_hint_y=None, size_hint_x = None, height=200, width = 350)
+            #self.spreadsheet_grid.add_widget(btn)
+
+        self.spreadsheet_scroll = ScrollView(size_hint=(None, None), size=(Window.width, Window.height - 10), do_scroll_x = True, do_scroll_y = True, pos_hint = {"top": 0.85})
+        self.spreadsheet_scroll.add_widget(self.spreadsheet_grid)
+        spreadsheet_screen.add_widget(self.spreadsheet_scroll)
 
     def get_next_workout(self):
         return "workout" + str(self.workoutsplit_tracker)
@@ -167,7 +225,7 @@ class GainsApp(App):
             pass
 
     def create_label(self,text):
-        return Label(text = text)
+        return Label(text = text, font_size = '10sp')
 
     def ask_exercises(self, days_of_week):
         try:
@@ -243,20 +301,19 @@ class GainsApp(App):
 
     def submit_exercises(self):
         if self.splitname1.text != "":
-            self.split_exercises[self.workoutday0.text] = self.splitname1.text
+            self.split_exercises[self.workoutday0.text] = self.splitname1.text.split(", ")
         if self.splitname2.text != "":
-            self.split_exercises[self.workoutday1.text] = self.splitname2.text
+            self.split_exercises[self.workoutday1.text] = self.splitname2.text.split(", ")
         if self.splitname3.text != "":
-            self.split_exercises[self.workoutday2.text] = self.splitname3.text
+            self.split_exercises[self.workoutday2.text] = self.splitname3.text.split(", ")
         if self.splitname4.text != "":
-            self.split_exercises[self.workoutday3.text] = self.splitname4.text
+            self.split_exercises[self.workoutday3.text] = self.splitname4.text.split(", ")
         if self.splitname5.text != "":
-            self.split_exercises[self.workoutday4.text] = self.splitname5.text
+            self.split_exercises[self.workoutday4.text] = self.splitname5.text.split(", ")
         if self.splitname6.text != "":
-            self.split_exercises[self.workoutday5.text] = self.splitname6.text
+            self.split_exercises[self.workoutday5.text] = self.splitname6.text.split(", ")
         if self.splitname7.text != "":
-            self.split_exercises[self.workoutday6.text] = self.splitname7.text
-        print(self.split_exercises)
+            self.split_exercises[self.workoutday6.text] = self.splitname7.text.split(", ")
 
 if __name__ == '__main__':
     GainsApp().run()

@@ -1,0 +1,9 @@
+<WorkoutScreen1>:
+    FloatLayout:
+        Button:
+            pos_hint: {"top": 1, "left": 0.5}
+            size_hint: 0.15,0.12
+            #Credit: https://www.flaticon.com/authors/pixel-perfect
+            background_normal: "icons/previous.png"
+            on_release:
+                app.change_screen("add_workout_screen","previous")
