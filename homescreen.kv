@@ -11,6 +11,7 @@
             pos_hint: {"top": 1.2, "left": 1}
             #Credit: “Created my free logo at LogoMakr.com”
             source: "icons/Logo.png"
+
         Label:
             text: "SuperSet"
             #pos_hint: {"top": 1.4, "right": 1}
@@ -27,6 +28,7 @@
             size_hint: 0.2, 0.1
             pos_hint: {"top": 0.4, "right": 0.35}
             on_release:
+                app.advance_screen_name()
                 app.change_screen("add_workout_screen","next")
         Label:
             text: "Add Workout Split"

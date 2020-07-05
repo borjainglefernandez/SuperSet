@@ -1,5 +1,66 @@
+# This screen is used to navigate to the existing spreadsheets and their stat pages
 <ExistingSplitsScreen>:
-    Button:
-        background_normal: "icons/previous.png"
-        on_release:
-            app.change_screen("home_screen","previous")
+    FloatLayout:
+        Button:
+            pos_hint: {"top": 1, "left": 0.5}
+            size_hint: 0.15,0.12
+            #Credit: https://www.flaticon.com/authors/xnimrodx
+            background_normal: "icons/previous.png"
+            on_release:
+                app.change_screen("home_screen","previous")
+        Button:
+            text: "Split 1 Spreadsheet"
+            pos_hint: {"top": 0.6, "right": 0.9}
+            size_hint: 0.4,0.12
+            on_release:
+                app.change_screen("workout_screen_1","next")
+                app.change_active_spreadsheet("workout_screen_1")
+        Button:
+            text: "Split 1 Stats"
+            pos_hint: {"top": 0.6, "right": 0.5}
+            size_hint: 0.4,0.12
+            on_release:
+                app.change_screen("stat_screen_1","next")
+
+        Button:
+            text: "Split 2 Spreadsheet"
+            pos_hint: {"top": 0.5, "right": 0.9}
+            size_hint: 0.4,0.12
+            on_release:
+                app.change_screen("workout_screen_2","next")
+                app.change_active_spreadsheet("workout_screen_2")
+
+        Button:
+            text: "Split 2 Stats"
+            pos_hint: {"top": 0.5, "right": 0.5}
+            size_hint: 0.4,0.12
+            on_release:
+                app.change_screen("stat_screen_2","next")
+        Button:
+            text: "Split 3 Spreadsheet"
+            pos_hint: {"top": 0.4, "right": 0.9}
+            size_hint: 0.4,0.12
+            on_release:
+                app.change_screen("workout_screen_3","next")
+                app.change_active_spreadsheet("workout_screen_3")
+
+        Button:
+            text: "Split 3 Stats"
+            pos_hint: {"top": 0.4, "right": 0.5}
+            size_hint: 0.4,0.12
+            on_release:
+                app.change_screen("stat_screen_3","next")
+        Button:
+            text: "Split 4 Spreadsheet"
+            pos_hint: {"top": 0.3, "right": 0.9}
+            size_hint: 0.4,0.12
+            on_release:
+                app.change_screen("workout_screen_4","next")
+                app.change_active_spreadsheet("workout_screen_4")
+
+        Button:
+            text: "Split 4 Stats"
+            pos_hint: {"top": 0.3, "right": 0.5}
+            size_hint: 0.4,0.12
+            on_release:
+                app.change_screen("stat_screen_4","next")

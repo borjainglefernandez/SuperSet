@@ -3,8 +3,17 @@
 #:include existingsplits.kv
 #:include settings.kv
 #:include workoutscreen1.kv
+#:include workoutscreen2.kv
+#:include workoutscreen3.kv
+#:include workoutscreen4.kv
+#:include statscreen1.kv
+#:include statscreen2.kv
+#:include statscreen3.kv
+#:include statscreen4.kv
 
-
+# This file holds all the screen names
+#
+# Make sure that if you add a new screen to include it in here as well is in the main.py file
 GridLayout:
     cols: 1
     ScreenManager:
@@ -24,6 +33,27 @@ GridLayout:
         WorkoutScreen1:
             name: "workout_screen_1"
             id: workout_screen_1
+        WorkoutScreen2:
+            name: "workout_screen_2"
+            id: workout_screen_2
+        WorkoutScreen3:
+            name: "workout_screen_3"
+            id: workout_screen_3
+        WorkoutScreen4:
+            name: "workout_screen_4"
+            id: workout_screen_4
+        StatScreen1:
+            name: "stat_screen_1"
+            id: stat_screen_1
+        StatScreen2:
+            name: "stat_screen_2"
+            id: stat_screen_2
+        StatScreen3:
+            name: "stat_screen_3"
+            id: stat_screen_3
+        StatScreen4:
+            name: "stat_screen_4"
+            id: stat_screen_4
 
 
 

@@ -1,3 +1,4 @@
+# This is here to change the color of the labels
 <BackgroundColor@Widget>
     background_color: 1, 1, 1, 1
     canvas.before:
@@ -6,15 +7,22 @@
         Rectangle:
             size: self.size
             pos: self.pos
+
+# This is here to change the color of the labels
 <BackgroundLabel@Label+BackgroundColor>
     background_color: 0, 0, 0, 0
+
+# This is here to change the color of the buttons
 <BackgroundButton@Button+BackgroundColor>
     background_color: 0, 0, 0, 0
+
+# Screen after hitting the blue + on the home screen
 <AddWorkoutScreen>:
     ScrollView:
         do_scroll_x: False
         do_scroll_y: True
         FloatLayout:
+
             BackgroundLabel:
                 size_hint: 0.7,0.1
                 pos_hint: {"top": 0.9, "right": 0.9}
@@ -22,16 +30,20 @@
                 text: "How many days a week would you like to workout?"
                 font_size: "10sp"
                 background_color: 0.047, 0.51372549, 0.894, 1
+
             TextInput:
                 id: workout_days
                 size_hint: 0.35,0.1
                 pos_hint: {"top": 0.8, "right": 0.55}
+
+            # Button which is used to add the text inputs that ask for split day names
             Button:
                 size_hint: 0.35,0.1
                 pos_hint: {"top": 0.8, "right": 0.9}
                 text: "Submit"
                 on_release:
                     app.ask_split(workout_days.text)
+
             BackgroundLabel:
                 size_hint: 0.7,0.1
                 pos_hint: {"top": 0.65, "right": 0.85}
@@ -39,6 +51,8 @@
                 text: "Enter the name of each workout day: "
                 font_size: "10sp"
                 background_color: 0.047, 0.51372549, 0.894, 1
+
+            # Back button which resets all of the data
             Button:
                 pos_hint: {"top": 1, "left": 0.5}
                 size_hint: 0.15,0.12
@@ -47,6 +61,9 @@
                 on_release:
                     app.change_screen("home_screen","previous")
                     app.clear_addworkout_screen()
+                    app.revert_screen_name()
+                    app.clear_dicts()
+
             BackgroundLabel:
                 size_hint: 0.7,0.05
                 pos_hint: {"top": 0.3, "right": 0.85}
@@ -54,19 +71,16 @@
                 text: 'Enter the name of each exercise seperated by a ","'
                 font_size: "10sp"
                 background_color: 0.047, 0.51372549, 0.894, 1
-            #Button:
-                #pos_hint: {"top": 0.2, "left": 1}
-                #size_hint: 0.2, 0.1
-                #text: "Add Workout"
-                #on_release:
-                    #app.add_screen("workout")
-                    #app.change_screen(app.get_next_workout(),"next")
+
+            # Button which is used to add the text inputs that ask for exercise names
             Button:
                 pos_hint: {"top": 0.65, "right": 0.85}
                 size_hint: 0.11, 0.11
                 text: "Submit"
                 on_release:
                     app.ask_exercises(workout_days.text)
+
+            # Button which creates the new spreadsheet and switches to it
             Button:
                 pos_hint: {"top": 0.3, "right": 0.85}
                 size_hint: 0.11, 0.05
@@ -75,4 +89,6 @@
                     app.submit_exercises()
                     app.add_screen("workout_screen_")
                     app.create_spreadsheet()
+                    app.clear_addworkout_screen()
+
 
