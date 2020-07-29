@@ -1,3 +1,17 @@
+# This is here to change the color of the labels
+<BackgroundColor@Widget>
+    background_color: 1, 1, 1, 1
+    canvas.before:
+        Color:
+            rgba: root.background_color
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+# This is here to change the color of the labels
+<BackgroundLabel@Label+BackgroundColor>
+    background_color: 0, 0, 0, 0
+    
 <StatScreen1>:
     FloatLayout:
         Button:
@@ -7,8 +21,36 @@
             background_normal: "icons/home.png"
             on_release:
                 app.change_screen("home_screen","previous")
-        Button:
-            pos_hint: {"top": 1, "right": 1}
-            size_hint: 0.12,0.12
-            text: "Submit"
+
+        BackgroundLabel:
+            size_hint: 0.1,0.1
+            pos_hint: {"top": 0.9, "right": 0.35}
+            halign: "center"
+            text: "Min"
+            font_size: "10sp"
+            background_color: 0.047, 0.51372549, 0.894, 1
+
+        BackgroundLabel:
+            size_hint: 0.1,0.1
+            pos_hint: {"top": 0.9, "right": 0.55}
+            halign: "center"
+            text: "Max"
+            font_size: "10sp"
+            background_color: 0.047, 0.51372549, 0.894, 1
+
+        BackgroundLabel:
+            size_hint: 0.1,0.1
+            pos_hint: {"top": 0.9, "right": 0.75}
+            halign: "center"
+            text: "Avg"
+            font_size: "10sp"
+            background_color: 0.047, 0.51372549, 0.894, 1
+
+        BackgroundLabel:
+            size_hint: 0.1,0.1
+            pos_hint: {"top": 0.9, "right": 0.95}
+            halign: "center"
+            text: "Avg Inc"
+            font_size: "10sp"
+            background_color: 0.047, 0.51372549, 0.894, 1
 

@@ -192,6 +192,41 @@ class GainsApp(App):
     # List to iterate through each text box in spreadsheet 4
     text_boxes_list_screen_4 = []
 
+    # Label List for stat screen 1
+    #
+    # Used to delete the labels so that they are updated
+    stat_screen_1_labels = []
+
+    # Label List for stat screen 2
+    #
+    # Used to delete the labels so that they are updated
+    stat_screen_2_labels = []
+
+    # Label List for stat screen 3
+    #
+    # Used to delete the labels so that they are updated
+    stat_screen_3_labels = []
+
+    # Label List for stat screen 4
+    #
+    # Used to delete the labels so that they are updated
+    stat_screen_4_labels = []
+
+    # ScrollView for stat screen 1
+    stat_scroll_1 = ScrollView(size_hint=(1, None), size=(Window.width, Window.height),
+                                         do_scroll_x=True, do_scroll_y=True, pos_hint={"top": 0.78})
+    # ScrollView for stat screen 2
+    stat_scroll_2 = ScrollView(size_hint=(1, None), size=(Window.width, Window.height),
+                                         do_scroll_x=True, do_scroll_y=True, pos_hint={"top": 0.78})
+
+    # ScrollView for stat screen 3
+    stat_scroll_3 = ScrollView(size_hint=(1, None), size=(Window.width, Window.height),
+                                         do_scroll_x=True, do_scroll_y=True, pos_hint={"top": 0.78})
+
+    # ScrollView for stat screen 4
+    stat_scroll_4 = ScrollView(size_hint=(1, None), size=(Window.width, Window.height),
+                                         do_scroll_x=True, do_scroll_y=True, pos_hint={"top": 0.78})
+
     # Not exactly sure what this does LOL don't worry about it
     def build(self):
         return GUI
@@ -257,6 +292,7 @@ class GainsApp(App):
             split_exercises = self.split_exercises_1
             text_boxes_list_screen = self.text_boxes_list_screen_1
             date_dict = self.date_dict_1
+            self.add_stats("stat_screen_1", self.workout_screen_1_data, self.split_exercises_1, self.stat_scroll_1)
 
         elif self.actual_name == "workout_screen_2":
             data_creator = self.workout_screen_2_data
@@ -265,6 +301,7 @@ class GainsApp(App):
             split_exercises = self.split_exercises_2
             text_boxes_list_screen = self.text_boxes_list_screen_2
             date_dict = self.date_dict_2
+            self.add_stats("stat_screen_2", self.workout_screen_2_data, self.split_exercises_2, self.stat_scroll_2)
 
         elif self.actual_name == "workout_screen_3":
             data_creator = self.workout_screen_3_data
@@ -273,6 +310,7 @@ class GainsApp(App):
             split_exercises = self.split_exercises_3
             text_boxes_list_screen = self.text_boxes_list_screen_3
             date_dict = self.date_dict_3
+            self.add_stats("stat_screen_3", self.workout_screen_3_data, self.split_exercises_3, self.stat_scroll_3)
 
         elif self.actual_name == "workout_screen_4":
             data_creator = self.workout_screen_4_data
@@ -281,6 +319,7 @@ class GainsApp(App):
             split_exercises = self.split_exercises_4
             text_boxes_list_screen = self.text_boxes_list_screen_4
             date_dict = self.date_dict_4
+            self.add_stats("stat_screen_4", self.workout_screen_4_data, self.split_exercises_4, self.stat_scroll_4)
 
         else:
             pass
@@ -430,7 +469,8 @@ class GainsApp(App):
     # @param dict dict is the data dict for a particular spreadsheet (i.e. workout_screen_1_data)
     # @param dict split_exercises is the particular dict containing each split day's exercises (i.e. split_exercises_1)
     # @param dict date_dict is the part dict containing each splits list of dates
-    def calculate_stats(self, dict, split_exercises, date_dict):
+    # @param string stat_screen the name of the stat screen
+    def calculate_stats(self, dict, split_exercises, date_dict, stat_screen):
         # Iterates through each split day's list of exercises
         for exercises in split_exercises.values():
             # Iterates through the exercise list's exercises
@@ -557,6 +597,83 @@ class GainsApp(App):
                 except:
                     pass
 
+    # Adds the necessary labels to the stat screen after collecting the data
+    #
+    # @param string name_of_screen is the name of the spreadsheet
+    # @param dict data_dict the dict holding the data for the spreadsheet
+    # @param dict exercise_dict the dict holding the exercise names for the spreadsheet
+    # @param list label_list the list holding the labels for a particular spreadsheet's data
+    # @param ScrollView stat_scroll the scroll view holding all the labels for the stat screen
+    def add_stats(self, name_of_screen, data_dict, exercise_dict, stat_scroll):
+        # Neutral variable to add all of the widgets to the correct screen
+        stat_screen = self.root.ids[name_of_screen]
+
+        # Variable to hold the grid
+        stat_grid = GridLayout(cols = 5, size_hint_y = None, pos_hint = {"top": 0.2, "right": 0.1}, spacing = 10)#row_force_default=True, row_default_height = 100)
+        stat_grid.bind(minimum_height=stat_grid.setter('height'))
+
+        # Delete all the labels so that they are updated accordingly
+        try:
+            # If stat scroll already in the stat screen then remove it
+            stat_screen.remove_widget(stat_scroll)
+        except:
+            pass
+
+        stat_scroll.clear_widgets()
+        
+        # Go through all of the exercises
+        for exercise_list in exercise_dict.values():
+            for exercise in exercise_list:
+                stat_label = Label(text = exercise, font_size = "10sp", size_hint_y=None, height=50, width=100)
+                stat_grid.add_widget(stat_label)
+
+                # If there is data for the exercise add it as a label, if not add a label that says "No Data"
+                try:
+                    min_label_text = ""
+                    for text in data_dict[str(exercise + "_min")]:
+                        min_label_text += str(text)
+                        min_label_text += ", "
+                    min_label = Label(text = min_label_text, font_size = "10sp", size_hint_y=None, height=50, width=100)
+                    stat_grid.add_widget(min_label)
+
+                except KeyError:
+                    min_label = Label(text = "No data", font_size = "10sp", size_hint_y=None, height=50, width=100)
+                    stat_grid.add_widget(min_label)
+
+                try:
+                    max_label_text = ""
+                    for text in data_dict[str(exercise + "_max")]:
+                        max_label_text += str(text)
+                        max_label_text += ", "
+                    max_label = Label(text = max_label_text, font_size = "10sp", size_hint_y=None, height=50, width=100)
+                    stat_grid.add_widget(max_label)
+
+                except KeyError:
+                    max_label = Label(text = "No data", font_size = "10sp", size_hint_y=None, height=50, width=100)
+                    stat_grid.add_widget(max_label)
+
+                try:
+                    avg_label_text = str(data_dict[str(exercise + "_average")])
+                    avg_label = Label(text = avg_label_text, font_size = "10sp", size_hint_y=None, height=50, width=100)
+                    stat_grid.add_widget(avg_label)
+
+                except KeyError:
+                    avg_label = Label(text="No data", font_size = "10sp", size_hint_y=None, height=50, width=100)
+                    stat_grid.add_widget(avg_label)
+
+                try:
+                    avg_increase_label_text = str(data_dict[str(exercise + "_average_increase")])
+                    avg_increase_label = Label(text=avg_increase_label_text, font_size = "10sp", size_hint_y=None, height=50, width=100)
+                    stat_grid.add_widget(avg_increase_label)
+
+                except KeyError:
+                    avg_increase_label = Label(text="No data", font_size = "10sp", size_hint_y=None, height=50, width=100)
+                    stat_grid.add_widget(avg_increase_label)
+
+        # Add the grid to the scroll view and the scrollview to the screen itself
+        stat_scroll.add_widget(stat_grid)
+        stat_screen.add_widget(stat_scroll)
+
 
 
     # Tied to a button so that calculate_average() and calculate_stats() are both performed
@@ -567,20 +684,23 @@ class GainsApp(App):
 
         if name_of_screen == "workout_screen_1":
             self.calculate_average("workout_screen_1")
-            self.calculate_stats(self.workout_screen_1_data, self.split_exercises_1, self.date_dict_1)
-            print(self.workout_screen_1_data)
+            self.calculate_stats(self.workout_screen_1_data, self.split_exercises_1, self.date_dict_1, "stat_screen_1")
+            self.add_stats("stat_screen_1", self.workout_screen_1_data, self.split_exercises_1, self.stat_scroll_1)
 
         elif name_of_screen == "workout_screen_2":
             self.calculate_average("workout_screen_2")
-            self.calculate_stats(self.workout_screen_2_data, self.split_exercises_2, self.date_dict_2)
+            self.calculate_stats(self.workout_screen_2_data, self.split_exercises_2, self.date_dict_2, "stat_screen_2")
+            self.add_stats("stat_screen_2", self.workout_screen_2_data, self.split_exercises_2, self.stat_scroll_2)
 
         elif name_of_screen == "workout_screen_3":
             self.calculate_average("workout_screen_3")
-            self.calculate_stats(self.workout_screen_3_data, self.split_exercises_3, self.date_dict_3)
+            self.calculate_stats(self.workout_screen_3_data, self.split_exercises_3, self.date_dict_3, "stat_screen_3")
+            self.add_stats("stat_screen_3", self.workout_screen_3_data, self.split_exercises_3, self.stat_scroll_3)
 
         elif name_of_screen == "workout_screen_4":
             self.calculate_average("workout_screen_4")
-            self.calculate_stats(self.workout_screen_4_data, self.split_exercises_4, self.date_dict_4)
+            self.calculate_stats(self.workout_screen_4_data, self.split_exercises_4, self.date_dict_4, "stat_screen_4")
+            self.add_stats("stat_screen_4", self.workout_screen_4_data, self.split_exercises_4, self.stat_scroll_4)
 
         else:
             pass
@@ -773,6 +893,11 @@ class GainsApp(App):
     # Clears the add workout screen when either the back or submit button is hit
     def clear_addworkout_screen(self):
         addworkout_screen = self.root.ids["add_workout_screen"]
+
+        # Reset the text input for number of weekdays
+        text_input_num_of_weekdays = addworkout_screen.ids["workout_days"]
+        text_input_num_of_weekdays.text = ""
+
 
         if self.split_grid is not None:
             self.split_grid.clear_widgets()
