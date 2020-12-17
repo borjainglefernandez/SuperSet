@@ -632,7 +632,11 @@ class GainsApp(App):
                     min_label_text = ""
                     for text in data_dict[str(exercise + "_min")]:
                         min_label_text += str(text)
-                        min_label_text += ", "
+                        min_label_text += " @ "
+
+                    # Get rid of last @ sign
+                    min_label_text = min_label_text[:-2]
+
                     min_label = Label(text = min_label_text, font_size = "10sp", size_hint_y=None, height=50, width=100)
                     stat_grid.add_widget(min_label)
 
@@ -644,7 +648,11 @@ class GainsApp(App):
                     max_label_text = ""
                     for text in data_dict[str(exercise + "_max")]:
                         max_label_text += str(text)
-                        max_label_text += ", "
+                        max_label_text += " @ "
+
+                    # Get rid of last @ sign
+                    max_label_text = max_label_text[:-2]
+
                     max_label = Label(text = max_label_text, font_size = "10sp", size_hint_y=None, height=50, width=100)
                     stat_grid.add_widget(max_label)
 
@@ -791,17 +799,32 @@ class GainsApp(App):
 
         return week
 
+    # Error message label
+    warning_label_range = Label()
     # Dynamically adds the labels and text inputs to ask for the name of each split day
     #
     # @param string (immediately converted to int) of the amount of days a week the user works out
     def ask_split(self,days_of_week):
+        addworkout_screen = self.root.ids["add_workout_screen"]
+        days_input = self.root.ids["add_workout_screen"].ids["workout_days"]
+        days_input.disable = False
+
+        self.warning_label_range.text = ""
+
         try:
             days = int(days_of_week)
+
+            # If days are out of range display error message
+            if days < 1 or days > 7:
+                self.warning_label_range = Label(text = "Days of the week added must be a number within the range 1-7", size_hint_y=0.25, size_hint_x=0.25, height=200, width=350,  pos_hint = {"top": 0.8, "right": 0.5})
+                addworkout_screen.add_widget(self.warning_label_range)
+
             # The days of the week have to be between 1 and 7
             if days >= 1 and days <= 7 and self.add_split_pressed == False:
+                # Get rid of any error messages that may be there
+
                 # Prevents the button from being pressed twice
                 self.add_split_pressed = True
-                addworkout_screen = self.root.ids["add_workout_screen"]
                 self.split_grid = GridLayout(cols_minimum = {0: 50, 1: 500},cols = 2, rows = days, size_hint_x = 0.9, size_hint_y = 0.25, pos_hint = {"top": 0.55, "right": 0.95})
                 # Adds the appropriate number of labels
                 for x in range(days):
@@ -823,10 +846,15 @@ class GainsApp(App):
                     # For each label denoting the split name, adds the radio button groups with the days of the week
                     self.split_grid.add_widget(self.get_days_of_the_week())
                 addworkout_screen.add_widget(self.split_grid)
+                days_input.disable = True
 
         except:
-            # Don't do anything if the string is not a number
-            pass
+
+            # Display error message if string is not a number
+            self.warning_label_range = Label(text="Days of the week added must be a number within the range 1-7",
+                                             size_hint_y=0.25, size_hint_x=0.25, height=200, width=350,
+                                             pos_hint={"top": 0.8, "right": 0.5})
+            addworkout_screen.add_widget(self.warning_label_range)
 
     # Automatically creates a label with a certain font size
     #
@@ -834,10 +862,15 @@ class GainsApp(App):
     def create_label(self,text):
         return Label(text = text, font_size = '10sp')
 
+    # Error message label
+    warning_label_blank = Label()
+    warning_label_day = Label()
     # Dynamically adds the labels and text inputs to ask for the name of each exercise of a particular split day
     #
     # @param string (immediately converted to int) of the amount of days a week the user works out
     def ask_exercises(self, days_of_week):
+
+        addworkout_screen = self.root.ids["add_workout_screen"]
 
         if self.actual_name == "workout_screen_1":
             split_day = self.split_day_1
@@ -851,12 +884,48 @@ class GainsApp(App):
         elif self.actual_name == "workout_screen_4":
             split_day = self.split_day_4
 
+        self.warning_label_blank.text = ""
+        self.warning_label_day.text = ""
+
+
+        for splitname in split_day.keys():
+            if splitname == "":
+                self.warning_label_blank = Label(text="One or more split names is blank.",
+                                                 size_hint_y=0.25, size_hint_x=0.25, height=200, width=350,
+                                                 pos_hint={"top": 0.8, "right": 0.5})
+                addworkout_screen.add_widget(self.warning_label_blank)
+                self.clear_dicts()
+                self.workoutday0.text = ""
+                self.workoutday1.text = ""
+                self.workoutday2.text = ""
+                self.workoutday3.text = ""
+                self.workoutday4.text = ""
+                self.workoutday5.text = ""
+                self.workoutday6.text = ""
+
+                self.splitname1.text = ""
+                self.splitname2.text = ""
+                self.splitname3.text = ""
+                self.splitname4.text = ""
+                self.splitname5.text = ""
+                self.splitname6.text = ""
+                self.splitname7.text = ""
+                return
+
         try:
             days = int(days_of_week)
+            print(days)
+            print(split_day.keys())
+            if days != len(split_day.keys()):
+                print("here2312312")
+                self.warning_label_day = Label(text="One or more days of the week was not selected.",
+                                                 size_hint_y=0.25, size_hint_x=0.25, height=200, width=350,
+                                                 pos_hint={"top": 0.8, "right": 0.5})
+                addworkout_screen.add_widget(self.warning_label_day)
+
+
             # The days of the week have to be between 1 and 7
-            addworkout_screen = self.root.ids["add_workout_screen"]
-            if days >= 1 and days <= 7:
-                # Prevents the button from being pressed twice
+            if days == len(split_day.keys()):
                 self.exercises_grid = GridLayout(cols_minimum={0: 50, 1: 500}, cols=2, rows=days, size_hint_x=0.9, size_hint_y=0.25,
                             )
                 count = 0
@@ -886,12 +955,16 @@ class GainsApp(App):
                 self.exercises_scroll.add_widget(self.exercises_grid)
                 addworkout_screen.add_widget(self.exercises_scroll)
 
+                self.disable_workout_textboxes()
+
         except:
             # Don't do anything if the string is not a number
             pass
 
     # Clears the add workout screen when either the back or submit button is hit
     def clear_addworkout_screen(self):
+        self.enable_workout_textboxes()
+
         addworkout_screen = self.root.ids["add_workout_screen"]
 
         # Reset the text input for number of weekdays
@@ -1096,6 +1169,26 @@ class GainsApp(App):
 
         else:
             pass
+
+    def disable_workout_textboxes(self):
+        # Disable all the text inputs
+        self.workoutday0.disabled = True
+        self.workoutday1.disabled = True
+        self.workoutday2.disabled = True
+        self.workoutday3.disabled = True
+        self.workoutday4.disabled = True
+        self.workoutday5.disabled = True
+        self.workoutday6.disabled = True
+
+    def enable_workout_textboxes(self):
+        # Disable all the text inputs
+        self.workoutday0.disabled = False
+        self.workoutday1.disabled = False
+        self.workoutday2.disabled = False
+        self.workoutday3.disabled = False
+        self.workoutday4.disabled = False
+        self.workoutday5.disabled = False
+        self.workoutday6.disabled = False
 
 # Used as the main method: just runs the app
 if __name__ == '__main__':
